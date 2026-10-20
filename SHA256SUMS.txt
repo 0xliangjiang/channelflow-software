@@ -1,0 +1,3 @@
+3269a334461858b450b3a09ad3308f9bf233319d98e330dac16a6c46b7d62bc0  ChannelFlow-0.1.0-darwin-arm64.tar.gz
+36be9c0a91a2befdb260b50cb879b7810667c8bf99a71a88df1fc59e5c1fc030  ChannelFlow-0.1.0-darwin-x86_64.tar.gz
+7dafc114bcebbf455fb56e7a3ce6d6eeebe8f9d0b92d642b3042d5508b6ce1b0  ChannelFlow-0.1.0-windows-amd64.zip
