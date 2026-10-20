@@ -2,13 +2,13 @@
 
 免 Docker 的本机监听、转发与 HipoBuy 客户端。用户电脑无需安装 Docker、WSL、Python、Git 或 FFmpeg；HipoBuy 的引擎和浏览器仅在需要时下载。
 
-## 下载 v0.2.1 预览版
+## 下载 v0.2.2 预览版
 
 | 系统 | 下载 |
 | --- | --- |
-| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.1/ChannelFlow-0.2.1-windows-amd64.zip) |
-| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.1/ChannelFlow-0.2.1-darwin-arm64.tar.gz) |
-| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.1/ChannelFlow-0.2.1-darwin-x86_64.tar.gz) |
+| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.2/ChannelFlow-0.2.2-windows-amd64.zip) |
+| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.2/ChannelFlow-0.2.2-darwin-arm64.tar.gz) |
+| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.2/ChannelFlow-0.2.2-darwin-x86_64.tar.gz) |
 
 [全部版本与附件](https://github.com/0xliangjiang/channelflow-software/releases) · [使用说明](使用说明.md) · [SHA-256 校验](SHA256SUMS.txt)
 
@@ -50,4 +50,4 @@ HipoBuy 需要原有账号和订阅授权。API Key 在本机工作台填写，�
 
 本仓库仅分发安装包、说明和校验文件；下载软件不替代平台的账号、订阅和节点授权。
 
-客户端 v0.2.1 内置 HTTPS 根证书；HipoBuy 组件保持 v0.2.0，由客户端自动下载，更新基础程序无需重新下载组件。
+客户端 v0.2.2 内置 HTTPS 根证书；HipoBuy 组件保持 v0.2.0，由客户端自动下载，更新基础程序无需重新下载组件。

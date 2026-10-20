@@ -1,6 +1,6 @@
-ca1fc939a2d04fdde12eaaaa3f95c86b4ee8a60246ebeea03d2bfed654d67e23  ChannelFlow-0.2.1-darwin-arm64.tar.gz
-1f830f34dc07af140e4d8aec74eb849c3c90cf127b10d08dff209221e9bfb4f8  ChannelFlow-0.2.1-darwin-x86_64.tar.gz
-19dd3a757d2dfbfbbe35b756075c7959bb0433ef77dca2695bdf7abe12a70245  ChannelFlow-0.2.1-windows-amd64.zip
 3fe5e74748e2ef917623a7fa07baea71fa2939e04b36cc18c1bf72145a7066cc  ChannelFlow-HipoBuy-0.2.0-darwin-arm64.zip
 72c066a4ce97e656d4c5fb022e3e298cabd8ed3085d7ff2a5d2d70ecd71620b2  ChannelFlow-HipoBuy-0.2.0-darwin-x86_64.zip
 0274f9cd97af6781a8da27a6ae7a64c5819a848db94b08fb2731e697feb7cdf3  ChannelFlow-HipoBuy-0.2.0-windows-amd64.zip
+0bb7790d4bf88a20ffbb4649e0fe0ad518549db968b0b58d0f11ae2a1b24aa13  ChannelFlow-0.2.2-darwin-arm64.tar.gz
+88953c260e7ecbb3f3d953931d993e1143bcc2c8f6042f4cc871cdea04df4f77  ChannelFlow-0.2.2-darwin-x86_64.tar.gz
+012adfea4764e44ced66314f31694d0da2a26d79edd35c6889a12c6729a7bcba  ChannelFlow-0.2.2-windows-amd64.zip
