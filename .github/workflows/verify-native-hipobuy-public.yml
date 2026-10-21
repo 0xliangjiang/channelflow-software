@@ -1,0 +1,54 @@
+name: Verify public HipoBuy install
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Published client and component version
+        required: true
+        default: '0.2.9'
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+    steps:
+      - name: Download and verify public Windows client
+        shell: pwsh
+        run: |
+          $version = $env:RELEASE_VERSION
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'INVALID_RELEASE_VERSION' }
+          $base = "https://github.com/0xliangjiang/channelflow-software/releases/download/v$version"
+          $archive = Join-Path $env:RUNNER_TEMP 'client.zip'
+          $name = "ChannelFlow-$version-windows-amd64.zip"
+          Invoke-WebRequest "$base/$name" -OutFile $archive
+          $checksum = Join-Path $env:RUNNER_TEMP 'client.sha256'
+          Invoke-WebRequest "$base/$name.sha256" -OutFile $checksum
+          $expected = (Get-Content $checksum -Raw).Trim().Split(' ')[0]
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw 'CLIENT_CHECKSUM_MISMATCH' }
+          Expand-Archive $archive (Join-Path $env:RUNNER_TEMP 'client')
+      - name: Install official component through the packaged client
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP 'hipobuy-public-profile'
+          $data = Join-Path $root 'hipobuy/data'
+          New-Item -ItemType Directory -Path $data -Force | Out-Null
+          Set-Content (Join-Path $data 'retained-fixture') 'keep-this-fixture'
+          $cli = Join-Path $env:RUNNER_TEMP 'client/ChannelFlow/channelflow-cli.exe'
+          & $cli --data-dir $root hipobuy install
+          if ($LASTEXITCODE -ne 0) { throw 'PUBLIC_COMPONENT_INSTALL_FAILED' }
+          $component = Join-Path $root "components/hipobuy/$env:RELEASE_VERSION"
+          $identity = Get-Content (Join-Path $component 'component.json') -Raw | ConvertFrom-Json
+          if ($identity.version -ne $env:RELEASE_VERSION -or $identity.platform -ne 'windows-amd64') { throw 'INSTALLED_COMPONENT_IDENTITY_MISMATCH' }
+          & (Join-Path $component 'hipobuy-engine.exe') --doctor
+          if ($LASTEXITCODE -ne 0) { throw 'INSTALLED_COMPONENT_DOCTOR_FAILED' }
+          & $cli --data-dir $root hipobuy install
+          if ($LASTEXITCODE -ne 0) { throw 'REPEATED_ENABLE_FAILED' }
+          if ((Get-Content (Join-Path $data 'retained-fixture')).Trim() -ne 'keep-this-fixture') { throw 'USER_DATA_NOT_RETAINED' }
+          $enabled = Get-Content (Join-Path $root 'hipobuy-enabled.json') -Raw | ConvertFrom-Json
+          if ($enabled.enabled -ne $true) { throw 'COMPONENT_NOT_ENABLED' }
+          Write-Output "PUBLIC_INSTALL_AND_ENABLE_VERIFIED version=$env:RELEASE_VERSION platform=windows-amd64 vectorCache=ok dataRetained=true"
