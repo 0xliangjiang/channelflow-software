@@ -2,13 +2,13 @@
 
 免 Docker 的本机监听、转发与 HipoBuy 客户端。用户电脑无需安装 Docker、WSL、Python、Git 或 FFmpeg；HipoBuy 的引擎和浏览器仅在需要时下载。
 
-## 下载 v0.2.7
+## 下载 v0.2.8
 
 | 系统 | 下载 |
 | --- | --- |
-| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-windows-amd64.zip) |
-| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-darwin-arm64.tar.gz) |
-| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-darwin-x86_64.tar.gz) |
+| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.8/ChannelFlow-0.2.8-windows-amd64.zip) |
+| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.8/ChannelFlow-0.2.8-darwin-arm64.tar.gz) |
+| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.8/ChannelFlow-0.2.8-darwin-x86_64.tar.gz) |
 
 [全部版本与附件](https://github.com/0xliangjiang/channelflow-software/releases) · [使用说明](使用说明.md) · [SHA-256 校验](SHA256SUMS.txt)
 
@@ -50,7 +50,7 @@ HipoBuy 需要原有账号和订阅授权。API Key 在本机工作台填写，�
 
 本仓库仅分发安装包、说明和校验文件；下载软件不替代平台的账号、订阅和节点授权。
 
-客户端与 HipoBuy 组件均为 v0.2.7，修复 Windows 图片向量缓存长路径写入失败。先启动 v0.2.7 客户端，再点击“安装 / 启用 HipoBuy”，自动下载、校验并启用修复组件；原有图库、索引、登录状态和密钥保留。旧版客户端不会重新下载已安装的组件，因此需要先更新基础客户端。
+客户端 v0.2.8 修复本地节点在线但网页无法重启来源的问题，保留登录状态和队列；重复任务不会反复重启，其他来源继续运行。HipoBuy 组件继续使用 v0.2.7，包含 Windows 图片向量缓存长路径修复。先启动 v0.2.8 客户端，再点击“安装 / 启用 HipoBuy”，自动下载、校验并启用修复组件；原有图库、索引、登录状态和密钥保留。旧版客户端不会重新下载已安装的组件，因此需要先更新基础客户端。
 
 X 来源支持 10–3600 秒检查间隔；请求耗时计入检查周期，失败账号独立退避。实际送达时间仍取决于上游响应和网络。
 
