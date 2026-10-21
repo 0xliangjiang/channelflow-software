@@ -1,0 +1,76 @@
+name: Stage verified client release assets
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        default: v0.2.5
+        type: string
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install --quiet requests
+      - name: Verify binary digests and upload to draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          SOURCE_ASSETS: ${{ secrets.CLIENT_RELEASE_ASSET_URLS }}
+        run: |
+          python - <<'PYCODE'
+          import concurrent.futures, hashlib, json, os, pathlib, re, sys, tempfile, urllib.parse
+          import requests
+          items=json.loads(os.environ['SOURCE_ASSETS'])
+          assert len(items)==17 and os.environ['RELEASE_TAG']=='v0.2.5'
+          auth={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
+          api='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']
+          def checked(method,url,**kw):
+              response=requests.request(method,url,headers=auth,timeout=(30,300),**kw)
+              if response.status_code not in (200,201,204): raise RuntimeError('GitHub API status '+str(response.status_code))
+              return response
+          releases=checked('GET',api+'/releases?per_page=20').json()
+          release=next(r for r in releases if r['tag_name']==os.environ['RELEASE_TAG'])
+          assert release['draft'] is True
+          upload=release['upload_url'].split('{')[0]
+          assert upload.startswith('https://uploads.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/')
+          existing={a['name']:a for a in release['assets']}
+          def stage(item):
+              name=item['name']
+              try:
+                  assert pathlib.PurePath(name).name==name and re.fullmatch(r'[A-Za-z0-9_.-]+',name)
+                  assert urllib.parse.urlparse(item['download']).hostname=='release-assets.githubusercontent.com'
+                  expected=item['digest'];assert re.fullmatch(r'sha256:[a-f0-9]{64}',expected)
+                  old=existing.get(name)
+                  if old and old['state']=='uploaded' and old['size']==item['size'] and old['digest']==expected:return name+' retained'
+                  if old:checked('DELETE',old['url'])
+                  with tempfile.TemporaryDirectory() as temp:
+                      target=pathlib.Path(temp)/name;digest=hashlib.sha256();count=0
+                      with requests.get(item['download'],stream=True,timeout=(30,120)) as stream:
+                          if stream.status_code!=200:raise RuntimeError('Download status '+str(stream.status_code))
+                          with target.open('wb') as file:
+                              for block in stream.iter_content(1048576):
+                                  if block:file.write(block);digest.update(block);count+=len(block)
+                      assert count==item['size'] and 'sha256:'+digest.hexdigest()==expected
+                      with target.open('rb') as file:
+                          result=requests.post(upload+'?name='+urllib.parse.quote(name),headers={**auth,'Content-Type':item['contentType'],'Content-Length':str(count)},data=file,timeout=(30,600))
+                      if result.status_code!=201:raise RuntimeError('Upload rejected')
+                      value=result.json();assert value['digest']==expected and value['size']==count
+                  return name+' SHA-256 verified'
+              except Exception:
+                  raise RuntimeError('Asset transfer failed: '+name) from None
+          try:
+              with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+                  for result in pool.map(stage,items):print(result,flush=True)
+              final=checked('GET',release['url']).json()
+              assert {a['name']:(a['size'],a['digest']) for a in final['assets']}=={a['name']:(a['size'],a['digest']) for a in items}
+              print('All 17 assets verified; release remains a draft')
+          except Exception as error:
+              print(type(error).__name__+': staging failed; no release published')
+              sys.exit(1)
+          PYCODE
