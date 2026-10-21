@@ -2,13 +2,13 @@
 
 免 Docker 的本机监听、转发与 HipoBuy 客户端。用户电脑无需安装 Docker、WSL、Python、Git 或 FFmpeg；HipoBuy 的引擎和浏览器仅在需要时下载。
 
-## 下载 v0.2.5
+## 下载 v0.2.7
 
 | 系统 | 下载 |
 | --- | --- |
-| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.5/ChannelFlow-0.2.5-windows-amd64.zip) |
-| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.5/ChannelFlow-0.2.5-darwin-arm64.tar.gz) |
-| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.5/ChannelFlow-0.2.5-darwin-x86_64.tar.gz) |
+| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-windows-amd64.zip) |
+| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-darwin-arm64.tar.gz) |
+| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.7/ChannelFlow-0.2.7-darwin-x86_64.tar.gz) |
 
 [全部版本与附件](https://github.com/0xliangjiang/channelflow-software/releases) · [使用说明](使用说明.md) · [SHA-256 校验](SHA256SUMS.txt)
 
@@ -44,13 +44,13 @@ HipoBuy 需要原有账号和订阅授权。API Key 在本机工作台填写，�
 
 ## 更新与验证
 
-从旧版更新：先停止客户端，替换完整程序文件夹，再启动。保留 Windows `%LOCALAPPDATA%\ChannelFlow` 或 macOS `~/Library/Application Support/ChannelFlow` 数据目录，无需重新注册原节点。
+从旧版更新：先退出旧客户端，解压并直接运行新版客户端；无需手动覆盖 HipoBuy 组件。保留 Windows `%LOCALAPPDATA%\ChannelFlow` 或 macOS `~/Library/Application Support/ChannelFlow` 数据目录，无需重新注册原节点。
 
 支持 Discord、Telegram、飞书和 X 普通转发，并可选安装 HipoBuy。QQ、Discord/Telegram AI 专用进程暂未包含。已在 Windows x64、macOS Apple Silicon 和 Intel 构建并运行打包程序，验证浏览器、本机登录、节点授权、加密保存和重启恢复。真实平台账号连接、识图效果及 Discord 目标回复仍需实际验收。安装包尚未配置开发者签名或 Apple 公证。
 
 本仓库仅分发安装包、说明和校验文件；下载软件不替代平台的账号、订阅和节点授权。
 
-客户端 v0.2.5 内置 HTTPS 根证书；HipoBuy 组件同步更新为 v0.2.5。升级基础客户端后，还需点击“安装 / 启用 HipoBuy”下载新版组件；原有图库、索引和密钥继续保留。
+客户端与 HipoBuy 组件均为 v0.2.7，修复 Windows 图片向量缓存长路径写入失败。先启动 v0.2.7 客户端，再点击“安装 / 启用 HipoBuy”，自动下载、校验并启用修复组件；原有图库、索引、登录状态和密钥保留。旧版客户端不会重新下载已安装的组件，因此需要先更新基础客户端。
 
 X 来源支持 10–3600 秒检查间隔；请求耗时计入检查周期，失败账号独立退避。实际送达时间仍取决于上游响应和网络。
 
