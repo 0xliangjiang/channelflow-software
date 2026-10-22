@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.9",
+  "platforms": {
+    "windows-amd64": {
+      "asset": "ChannelFlow-0.2.9-windows-amd64.zip",
+      "sha256": "9e7892f082488176d27f1e95b19e49813d60920f243b5e208e1765cf7bba1dcf",
+      "bytes": 142812240
+    },
+    "darwin-arm64": {
+      "asset": "ChannelFlow-0.2.9-darwin-arm64.tar.gz",
+      "sha256": "b5d9a55a68b7a4587d3df0a2517f4cd221e763cb780c55cf3939f6ef4a14f959",
+      "bytes": 64051269
+    },
+    "darwin-x86_64": {
+      "asset": "ChannelFlow-0.2.9-darwin-x86_64.tar.gz",
+      "sha256": "99a7d984a845b5836fe2817ab5eca2f418847bb4ead9df14946137ff05aa4bee",
+      "bytes": 68581000
+    }
+  }
+}
