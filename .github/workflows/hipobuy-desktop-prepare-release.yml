@@ -1,0 +1,49 @@
+name: Prepare verified HipoBuy desktop release
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: 0xliangjiang/channelflow-software
+    steps:
+      - name: Require successful platform runtime checks
+        run: |
+          test "$(gh run view 39778279792 --json conclusion --jq .conclusion)" = success
+          mkdir verified
+          gh release download hipobuy-desktop-build-19b40cff2640 --pattern 'EasyForward-HipoBuy-Desktop-*' --dir verified
+      - name: Verify every archive and prepare consistent asset names
+        shell: python
+        run: |
+          import pathlib,hashlib,zipfile,json
+          expected={
+            'darwin-arm64':'09cf8060ca736ec6ef732038cfe240120137c7c72a1cb39d2d4fa50b05ac6840',
+            'darwin-x86_64':'90c42b91f0d6f8ecfebd5bc018f1e9a8936f1188a6da704c072c973fd1d6d917',
+            'windows-amd64':'8153fcd130672d42455a387b93b4e25a13989d03747d47e29fa517d4aa9808dd'}
+          for platform,digest in expected.items():
+            p=pathlib.Path('verified')/f'EasyForward-HipoBuy-Desktop-0.3.0-{platform}.zip'
+            assert hashlib.sha256(p.read_bytes()).hexdigest()==digest,p.name
+            with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              names=z.namelist()
+              assert all(not pathlib.PurePosixPath(n).is_absolute() and '..' not in pathlib.PurePosixPath(n).parts for n in names)
+              assert any('/browsers/' in n and 'chrome' in n.lower() for n in names)
+              assert not any(pathlib.PurePosixPath(n).name.startswith('.env') or pathlib.PurePosixPath(n).name in {'.desktop-login.json','.node-vault-key','discord-config.json','providers.json','library.json'} or n.endswith(('.sqlite','.sqlite3')) for n in names)
+              metadata=json.loads(z.read(next(n for n in names if n.endswith('/desktop.json'))))
+              assert metadata['version']=='0.3.0' and metadata['platform']==platform
+              assert metadata['sourceRevision']=='19b40cff26406ca1f674807e47ed8ae7d6d6b65b'
+              exe=next(n for n in names if n.endswith('/HipoBuy.exe' if platform.startswith('windows') else '/HipoBuy'))
+              if platform.startswith('windows'):assert z.read(exe)[:2]==b'MZ'
+            if platform=='darwin-x86_64':
+              p.with_suffix('.zip.sha256').unlink()
+              dest=p.with_name(p.name.replace('darwin-x86_64','darwin-amd64'))
+              p.rename(dest);p=dest
+            p.with_suffix('.zip.sha256').write_text(digest+'  '+p.name+'\n')
+            print('Verified',p.name)
+      - name: Assemble private release draft with binaries only
+        run: |
+          gh release create hipobuy-desktop-v0.3.0 --draft --title 'HipoBuy 独立客户端 v0.3.0' --notes 'EasyForward 仅用于首次登录鉴权。DC Token、识图参数、商品图库与索引保存在本机；平台离线后仍可继续运行。解压后打开 HipoBuy.exe 或 HipoBuy，首次选择原图库目录即可保留旧图片、索引、配置与处理记录。更新只替换程序目录。Windows、Apple 芯片 Mac、Intel Mac 均已通过实际打包程序启动及本地配置检查。真实账号登录与 Discord 图片匹配回复已在 macOS 验证。独立客户端无需节点。'
+          gh release upload hipobuy-desktop-v0.3.0 verified/*.zip verified/*.sha256
