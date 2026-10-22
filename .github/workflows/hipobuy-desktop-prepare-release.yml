@@ -30,12 +30,12 @@ jobs:
               assert z.testzip() is None
               names=z.namelist()
               assert all(not pathlib.PurePosixPath(n).is_absolute() and '..' not in pathlib.PurePosixPath(n).parts for n in names)
-              assert any('/browsers/' in n and 'chrome' in n.lower() for n in names)
+              assert any(n.startswith('browsers/') and 'chrome' in n.lower() for n in names)
               assert not any(pathlib.PurePosixPath(n).name.startswith('.env') or pathlib.PurePosixPath(n).name in {'.desktop-login.json','.node-vault-key','discord-config.json','providers.json','library.json'} or n.endswith(('.sqlite','.sqlite3')) for n in names)
-              metadata=json.loads(z.read(next(n for n in names if n.endswith('/desktop.json'))))
+              metadata=json.loads(z.read(next(n for n in names if n=='desktop.json')))
               assert metadata['version']=='0.3.0' and metadata['platform']==platform
               assert metadata['sourceRevision']=='19b40cff26406ca1f674807e47ed8ae7d6d6b65b'
-              exe=next(n for n in names if n.endswith('/HipoBuy.exe' if platform.startswith('windows') else '/HipoBuy'))
+              exe=next(n for n in names if n==('HipoBuy.exe' if platform.startswith('windows') else 'HipoBuy'))
               if platform.startswith('windows'):assert z.read(exe)[:2]==b'MZ'
             if platform=='darwin-x86_64':
               p.with_suffix('.zip.sha256').unlink()
