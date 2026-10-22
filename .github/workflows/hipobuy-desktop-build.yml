@@ -1,0 +1,56 @@
+name: Build independent HipoBuy desktop
+on:
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        required: true
+        type: string
+      source_sha256:
+        required: true
+        type: string
+      source_revision:
+        required: true
+        type: string
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, macos-14, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SOURCE_TAG: ${{ inputs.source_tag }}
+      SOURCE_SHA256: ${{ inputs.source_sha256 }}
+      SOURCE_REVISION: ${{ inputs.source_revision }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Fetch private draft source and verify pinned hash
+        shell: bash
+        run: |
+          gh release download "$SOURCE_TAG" --pattern hipobuy-desktop-source.tar.gz --dir incoming
+          python -c "import hashlib,os; from pathlib import Path; p=Path('incoming/hipobuy-desktop-source.tar.gz'); assert hashlib.file_digest(p.open('rb'),'sha256').hexdigest()==os.environ['SOURCE_SHA256']"
+          mkdir source
+          python -c "import tarfile; tarfile.open('incoming/hipobuy-desktop-source.tar.gz').extractall('source',filter='data')"
+      - name: Install build dependencies
+        working-directory: source
+        run: python -m pip install -r workers/hipobuy/requirements.txt pyinstaller==6.22.3
+      - name: Verify retained state and local Discord behavior
+        working-directory: source/workers/hipobuy
+        run: python -m unittest tests.test_desktop tests.test_desktop_migration tests.test_discord_config tests.test_discord_search tests.test_discord_reply_guards tests.test_discord_forum tests.test_image_search
+      - name: Build and exercise real frozen client
+        working-directory: source
+        shell: bash
+        run: python scripts/build-hipobuy-component.py --desktop --revision "$SOURCE_REVISION" --output output/hipobuy-desktop
+      - name: Retain verified binaries in the private build draft
+        working-directory: source
+        shell: bash
+        run: gh release upload "$SOURCE_TAG" output/hipobuy-desktop/EasyForward-HipoBuy-Desktop-*.zip output/hipobuy-desktop/EasyForward-HipoBuy-Desktop-*.sha256 --clobber
