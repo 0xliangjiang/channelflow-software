@@ -2,11 +2,11 @@
 
 免 Docker 的本机监听、转发与 HipoBuy 客户端。用户电脑无需安装 Docker、WSL、Python、Git 或 FFmpeg；HipoBuy 的引擎和浏览器仅在需要时下载。
 
-## 下载 v0.2.9
+## 下载
 
 | 系统 | 下载 |
 | --- | --- |
-| Windows 10/11 x64 | [Windows 客户端](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.9/ChannelFlow-0.2.9-windows-amd64.zip) |
+| Windows 10/11 x64 | [Windows 客户端 v0.2.15](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.15/ChannelFlow-0.2.15-windows-amd64.zip) |
 | macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.9/ChannelFlow-0.2.9-darwin-arm64.tar.gz) |
 | macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.9/ChannelFlow-0.2.9-darwin-x86_64.tar.gz) |
 
@@ -28,7 +28,7 @@ macOS：解压后进入 ChannelFlow 文件夹，在终端运行：
 
 ## 在同一个客户端启用 HipoBuy
 
-Windows：点击 **安装 / 启用 HipoBuy**，等待引擎与浏览器下载、校验完成；客户端取得网页授权后，点击 **打开 HipoBuy 工作台**。本机登录码可复制，五分钟内一次有效。
+Windows v0.2.15：在客户端目录中打开 PowerShell，运行 `./channelflow-cli.exe hipobuy install`。客户端取得授权后，运行 `./channelflow-cli.exe hipobuy open` 打开工作台并获取本机登录码。
 
 macOS：
 

@@ -4,3 +4,4 @@
 7e0c41704704883e815e1e3d69800cf779200ba8cc2fc3d1e051261217a7b6f0  ChannelFlow-HipoBuy-0.2.7-windows-amd64.zip
 b9d8a56942097ab9d1da0af2db6f32ca9cabdf786acc50bd8d541f41d72e3356  ChannelFlow-HipoBuy-0.2.7-darwin-x86_64.zip
 fea03fbb2f23271f9d4db06732dda4bb8f7ca09f1e3370b97c187d61bc4d3b54  ChannelFlow-0.2.8-windows-amd64.zip
+3074ab49505eb98b4494778460c2626a484fb9c8d2f7fa93b51fe2b115b185e7  ChannelFlow-0.2.15-windows-amd64.zip
