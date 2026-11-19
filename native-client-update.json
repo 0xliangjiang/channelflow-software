@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "version": "0.2.9",
+  "version": "0.2.18",
   "platforms": {
     "windows-amd64": {
-      "asset": "ChannelFlow-0.2.9-windows-amd64.zip",
-      "sha256": "9e7892f082488176d27f1e95b19e49813d60920f243b5e208e1765cf7bba1dcf",
-      "bytes": 142812240
+      "asset": "ChannelFlow-0.2.18-windows-amd64.zip",
+      "bytes": 138830177,
+      "sha256": "406b63026e098c0d411215ff60e837e743492c2c48dfce3b48a5341f6b96b30f"
     },
     "darwin-arm64": {
-      "asset": "ChannelFlow-0.2.9-darwin-arm64.tar.gz",
-      "sha256": "b5d9a55a68b7a4587d3df0a2517f4cd221e763cb780c55cf3939f6ef4a14f959",
-      "bytes": 64051269
+      "asset": "ChannelFlow-0.2.18-darwin-arm64.tar.gz",
+      "bytes": 60740925,
+      "sha256": "921bbddef201c248bd41d926e49ae5b593a242fe03faca81f59d9bc534fc534c"
     },
     "darwin-x86_64": {
-      "asset": "ChannelFlow-0.2.9-darwin-x86_64.tar.gz",
-      "sha256": "99a7d984a845b5836fe2817ab5eca2f418847bb4ead9df14946137ff05aa4bee",
-      "bytes": 68581000
+      "asset": "ChannelFlow-0.2.18-darwin-x86_64.tar.gz",
+      "bytes": 68943438,
+      "sha256": "2cbf344082c1d0ce807a503fc2fd46d6238c53cc0f55ea93eebd42380d56a728"
     }
   }
 }
