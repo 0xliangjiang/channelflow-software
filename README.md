@@ -6,9 +6,9 @@
 
 | 系统 | 下载 |
 | --- | --- |
-| Windows 10/11 x64 | [Windows 客户端 v0.2.15](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.15/ChannelFlow-0.2.15-windows-amd64.zip) |
-| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.9/ChannelFlow-0.2.9-darwin-arm64.tar.gz) |
-| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.9/ChannelFlow-0.2.9-darwin-x86_64.tar.gz) |
+| Windows 10/11 x64 | [Windows 客户端 v0.2.18](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.18/ChannelFlow-0.2.18-windows-amd64.zip) |
+| macOS Apple Silicon（M 系列） | [Mac ARM64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.18/ChannelFlow-0.2.18-darwin-arm64.tar.gz) |
+| macOS Intel | [Mac x64 命令行包](https://github.com/0xliangjiang/channelflow-software/releases/download/v0.2.18/ChannelFlow-0.2.18-darwin-x86_64.tar.gz) |
 
 [全部版本与附件](https://github.com/0xliangjiang/channelflow-software/releases) · [使用说明](使用说明.md) · [SHA-256 校验](SHA256SUMS.txt)
 
